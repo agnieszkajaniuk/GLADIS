@@ -1,0 +1,104 @@
+The code GLADIS computes the time-dependent evolution of a black hole 
+ accretion disk, in 1 dimensional, axisymmetric, vertically integrated scheme.
+The code solves two partial-differential equations of hydrodynamics for surface density and temperature evolution, i.e. given by 
+viscous diffussion and enery conservation.
+
+Accretion disk can be subject to radiation-pressure instability, if the 
+stress tensor is porportional to the total (gas plus radiation) pressure.
+In the gas-pressure dominated case there is no instability.
+An intermediate case is provided in the code by the square root of the 
+gas and total pressures.
+
+Configuration of the code, defined and explained with the comments 
+as in the routine konfig.c, can be done
+for the code setup, physics parameters, and output.
+The parameters are stored in the file dysk_zwm.ini.
+This file has to be saved in the working directory, i.e. like Code_GLADIS/exe/.
+The source code routines are stored in Code_GLADIS/src/.
+
+Code is parallelized with MPI.
+The running script "run" has to be made executable and put in the working directory, together with code executable and configuration file.
+Sample .ini and run command files are provided with the code.
+
+
+The output files are:
+--------------------------------------------------
+A. lum.dat - history file with  3 or 4 colums: 
+1.time [sec], 
+2.log (Disk Luminosity) [erg/sec]
+3.log (Disk surface integrated viscous flux) [erg/sec]
+4.log (Corona Luminosity) [erg/sec]
+
+B. sigma.000 and sigte.000 (number of files of each type 
+is equal to the number of grid points in radius).
+They contain the local profiles of surface density, temperature, and disk thickness. Files "sigma.000" etc. contain stationary S-curves, i.e. the local solutions of the disk structure given by the initial condition at t=0.
+Files "sigte.000" etc. contain time-dependent solutions.
+
+B1. Columns in "sigma.000" files
+1. Surface density [g/cm2]
+2. Effective temperature [K]
+3. Central temperature [K]
+4. Local accretion rate [Eddington units]
+
+B2. Columns in files "sigte.000" files
+1. Surface density [g/cm2]
+2. Effective temperature [K]
+3. Total pressure [dyn/cm2]
+4. beta (gas to total pressure) 
+5. Alpha viscosity
+6. Disk thickness
+
+If the mass exchange between disk and corona is turned on, the files contain 4 columns and in the last 2 columns there is surface density in the corona, and mass exhange rate.
+
+C. rsig.000 files  - radial profiles for a chosen time. The time
+is given by the number in the extension of the file rsig.* name. The columns store:
+1. radius [Rschw]
+2. Surface density in disk [g/cm2]
+3. Surface density in corona [g/cm2]
+4. Mass exchange rate [g/s]
+5. Disk thickness [cm]
+6. Total pressure [dyn/cm2]
+7. Gas pressure [dyn/cm2]
+8. Kinematic viscosity
+9. Radial velocity in the disk [cm/s]
+10. Radial velocity in corona [cm/s]
+11. Alpha visocity
+Columns 3,4, and 10 are printed only if the mass exchange with the corona is on.
+
+D. HDF files with density mapped into x-y plane, defined by disk radial and vertical extenstions.
+The files are organized by the DZWM_model.xmf list.
+They are prepared to make the color maps of density and temperature profiles with the graphic tools e.g. Visit. Grid is in logarythmic scale, in [cm]. Stored variables are:
+1. log(Density) [g/cm3] 
+2. log (Temperature) [K]
+
+Other types of graphs can be made with any tool.
+Sample macro for Supermongo is provided with the code.
+The users are encouraged to make their own macros
+and use the graphics tools of their choice.
+Also, extending the range of variables that are stored in the outputs
+is possible while it needs to edit the source code (i.e. inout.c).
+
+----------------------------------------------------------------------
+
+
+The research papers with results based on computations with this code:
+---------------------------------------------------------------------
+
+1. Janiuk Agnieszka, Czerny Bozena, Siemiginowska Aneta, "Radiation Pressure Instability Driven Variability in the Accreting Black Holes". 2002. ApJ, 576, 908
+
+2. Janiuk Agnieszka, Czerny Bozena, "Time-delays between the soft and hard X-ray bands in GRS 1915+105". 2005. MNRAS, 356, 205
+
+3. Janiuk Agnieszka, Czerny Bozena, "Accreting corona model of the X-ray variability in soft state X-ray binaries and active galactic nuclei". 2007. Astronomy & Astrophysics, 466, 793
+
+4. Janiuk Agnieszka, Czerny Bozena, "On different types of instabilities in 
+black hole accretion discs: implications for X-ray binaries and active galactic nuclei". 2011. MNRAS, 414, 2186
+
+5. Janiuk Agnieszka, Misra Ranjeev. "Stabilization of radiation pressure dominated accretion disks through viscous fluctuations". 2012. Astronomy & Astrophysics, 540, 114
+----------------------------------------------------------------------
+
+Any user who will make use of this software for his/her research, is kindly 
+asked to give proper credit and citations to the above papers.
+
+This version is publicly available.
+The author gives however no guarantee of performance 
+neither further technical support for the future users of this software.
